@@ -2,7 +2,7 @@
 import os
 import shutil
 import img2pdf  
-import cfscrape 
+from cfscrape import create_scraper
 
 from io import BytesIO
 from PIL import Image
@@ -19,11 +19,11 @@ def scrape(manga, chapter):
     manga = manga.lower().replace(" ","-")
 
 
-    if not os.path.exists(f"Mangas/{manga}"):
+    if not (os.path.exists(f"Mangas/{manga}")):
         # this will create directory with the name of manga
         os.makedirs(f"Mangas/{manga}") 
 
-    if not os.path.exists(f"Mangas/{manga}/{chapter}"):
+    if not (os.path.exists(f"Mangas/{manga}/{chapter}")):
         # this will create directory with the name of chapter number 
             os.makedirs(f"Mangas/{manga}/{chapter}") 
 
@@ -54,7 +54,7 @@ def scrape(manga, chapter):
             else: 
                 break      
     
-    if len(paths) != 0:
+    if len(paths) > 0:
         # sorting paths according to their name
         paths = sorted(paths,key=os.path.getmtime) 
 
@@ -77,8 +77,8 @@ if __name__ == "__main__":
     """
 
     # inputting manga name and chapter number
-    manga = input("Enter manga name: ")
-    chapter = input("Enter chapter number: ")
+    manga = str(input("Enter manga name: "))
+    chapter = str(input("Enter chapter number: "))
     
     # calling scrape function
     scrape(manga=manga, chapter=chapter)
